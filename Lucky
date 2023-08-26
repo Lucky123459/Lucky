@@ -1,0 +1,65 @@
+<?php
+
+error_reporting(0);
+
+class CloudSEK  {
+
+    private $func_no;
+    private $func_name;
+
+    function __construct($no , $name)  {
+        if ($no == NULL && $name == NULL)   {
+            $this->func_no = $no;
+            $this->func_name = $name;
+        }
+    }
+
+    function __wakeup()  {
+        $func_map = array(
+            1 => "XVigil",
+            2 => "BeVigil",
+            3 => "GetMeDemFlagz",
+        );
+        
+        $func_no = $this->func_no;
+        $func_name = str_rot13($this->func_name);
+
+        if ($func_map[$func_no] === $func_name)  {
+            $this->$func_name();
+        }
+        else    {
+            echo "<h3>Invalid Object Data</h3>";
+        }
+    }
+
+    function XVigil()   {
+        echo "<h3>XVigil is a cybersecurity platform designed to help organizations monitor and mitigate potential security threats and vulnerabilities across the digital landscape.</h3>";
+    }
+
+    function BeVigil()  {
+        echo "<h3>World's first Security Search Engine mobiles that makes sure the applications installed in your phone are safe.</h3>";
+    }
+
+    function GetMeDemFlagz()    {
+        $flag_file = "/tmp/flag.txt";
+        if (file_exists($flag_file))    {
+            $file_contents = file_get_contents($flag_file);
+            echo $file_contents;
+        }
+        else    {
+            $err_msg = "<h3>File Not Found!</h3>";
+            $file_contents = $err_msg;
+            echo $err_msg;
+        }
+    }
+}
+
+// $cloudsek = new CloudSEK(1 , "XVigil");
+$sess = $_GET["sess"];
+if (!isset($sess))  {
+    exit();
+}
+$data = base64_decode($sess);
+$obj = unserialize($data);
+
+?>
